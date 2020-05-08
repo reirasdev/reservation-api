@@ -8,7 +8,8 @@ on:
     branches: [ master ]
 
 env:
-  CI_PATH: $GITHUB_WORKSPACE/ciarea
+  DOCKER_LOGIN: ${{ secrets.DOCKER_HUB_LOGIN }}
+  DOCKER_PSWD: ${{ secrets.DOCKER_HUB_PASSWD }}
 
 jobs:
   build:
@@ -17,18 +18,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: 11
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build with Maven
-      run: mvn -B clean package --file pom.xml
+    - name: Build app with Maven
+      run: mvn -B clean package
 
-    - name: Build image
-      run: docker build -t $GITHUB_REPOSITORY:$GITHUB_SHA $CI_PATH 
+    - name: Build Docker image
+      run: docker build -t $GITHUB_REPOSITORY:$GITHUB_SHA .
 
-    - name: Log into registry
-      run: echo "${{ secrets.DOCKER_HUB_LOGIN }}" | docker login docker.pkg.github.com -u ${{ secrets.DOCKER_HUB_PASSWD }} --password-stdin
+    - name: Log into DokerHub
+      run: echo "$DOCKER_PSWD" | docker login docker.pkg.github.com -u $DOCKER_LOGIN --password-stdin
+    
+    - name: Publish Docker image to DokerHub
+      run: docker push $GITHUB_REPOSITORY:$GITHUB_SHA
