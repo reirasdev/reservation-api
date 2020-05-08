@@ -31,7 +31,9 @@ jobs:
       run: docker build -t $GITHUB_REPOSITORY:$GITHUB_SHA .
 
     - name: Log into DokerHub
-      run: echo "$DOCKER_PSWD" | docker login docker.pkg.github.com -u $DOCKER_LOGIN --password-stdin
+      run: echo "$DOCKER_PSWD" | docker login docker.io -u $DOCKER_LOGIN --password-stdin
     
     - name: Publish Docker image to DokerHub
-      run: docker push $GITHUB_REPOSITORY:$GITHUB_SHA
+      run: |
+        echo $GITHUB_REPOSITORY:$GITHUB_SHA
+        docker push $GITHUB_REPOSITORY:$GITHUB_SHA
