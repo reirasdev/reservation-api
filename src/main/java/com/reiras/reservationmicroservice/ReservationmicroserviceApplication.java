@@ -1,5 +1,7 @@
 package com.reiras.reservationmicroservice;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -27,14 +29,16 @@ public class ReservationmicroserviceApplication implements CommandLineRunner {
 		SpringApplication.run(ReservationmicroserviceApplication.class, args);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void run(String... args) throws Exception {
 		// Add test data
 		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
 		Customer customer1 = new Customer(null, 
 				"Raphael", 
 				"Eiras", 
+				df.parse("29/06/1983 00:00"),
 				"22984511093", 
 				"337787918", 
 				"reirasdev@gmail.com", 
@@ -56,6 +60,7 @@ public class ReservationmicroserviceApplication implements CommandLineRunner {
 		Customer customer2 = new Customer(null, 
 				"Solange", 
 				"Juliana", 
+				df.parse("19/05/1956 00:00"),
 				"11997156709", 
 				"330667257", 
 				"solju@gmail.com", 
@@ -75,15 +80,15 @@ public class ReservationmicroserviceApplication implements CommandLineRunner {
 				);
 	
 		Reservation reservation1 = new Reservation(null, ReservationStatus.CONFIRMED.getCode(), new Date(),
-				new Date("2020/08/10 10:00"), new Date("2020/08/15 12:00"), 5, 1000.00, 500.00,
+				df.parse("10/08/2020 10:00"), df.parse("15/08/2020 12:00"), 5, 1000.00, 500.00,
 				Payment.CREDIT_CARD.getCode(), customer1);
 		
 		Reservation reservation2 = new Reservation(null, ReservationStatus.EXPIRED.getCode(), new Date(),
-				new Date("2020/01/05 10:00"), new Date("2020/01/12 12:00"), 5, 600.00, 300.00,
+				df.parse("05/01/2020 10:00"), df.parse("12/01/2020 12:00"), 5, 600.00, 300.00,
 				Payment.CREDIT_CARD.getCode(), customer2);
 		
 		Reservation reservation3 = new Reservation(null, ReservationStatus.PENDING.getCode(), new Date(),
-				new Date("2020/09/07 10:00"), new Date("2020/09/11 12:00"), 5, 1200.00, 600.00,
+				df.parse("07/09/2020 10:00"), df.parse("11/09/2020 12:00"), 5, 1200.00, 600.00,
 				Payment.BANKING_BILLET.getCode(), customer2);
 		
 		reservationRepository.saveAll(Arrays.asList(reservation1, reservation2, reservation3));

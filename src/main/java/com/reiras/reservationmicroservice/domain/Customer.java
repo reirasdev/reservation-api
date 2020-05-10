@@ -2,6 +2,7 @@ package com.reiras.reservationmicroservice.domain;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,6 +15,7 @@ public class Customer implements Serializable {
 	private String id;
 	private String name;
 	private String lastName;
+	private Date birthDate;
 	private String fiscalId;
 	private String generalId;
 	private String email;
@@ -24,12 +26,13 @@ public class Customer implements Serializable {
 
 	}
 
-	public Customer(String id, String name, String lastName, String fiscalId, String generalId, String email,
-			String[] phone, Address address) {
+	public Customer(String id, String name, String lastName, Date birthDate, String fiscalId, String generalId,
+			String email, String[] phone, Address address) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
+		this.setBirthDate(birthDate);
 		this.fiscalId = fiscalId;
 		this.generalId = generalId;
 		this.email = email;
@@ -59,6 +62,14 @@ public class Customer implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getFiscalId() {
