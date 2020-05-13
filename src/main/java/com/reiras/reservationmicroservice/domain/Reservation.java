@@ -6,9 +6,6 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.reiras.reservationmicroservice.domain.enums.Payment;
-import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
-
 @Document
 public class Reservation implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -53,8 +50,8 @@ public class Reservation implements Serializable {
 		this.id = id;
 	}
 
-	public ReservationStatus getStatus() {
-		return ReservationStatus.toEnum(this.status);
+	public int getStatus() {
+		return status;
 	}
 
 	public void setStatus(int status) {
@@ -109,8 +106,8 @@ public class Reservation implements Serializable {
 		this.downPayment = downPayment;
 	}
 
-	public Payment getPayment() {
-		return Payment.toEnum(this.payment);
+	public int getPayment() {
+		return payment;
 	}
 
 	public void setPayment(int payment) {

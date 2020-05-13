@@ -1,13 +1,13 @@
 package com.reiras.reservationmicroservice.domain.enums;
 
-public enum Payment {
+public enum ReservationPayment {
 
 	CREDIT_CARD(1, "Credit_Card"), BANKING_BILLET(2, "Banking_Billet");
 
 	private int code;
 	private String desc;
 
-	private Payment(int code, String desc) {
+	private ReservationPayment(int code, String desc) {
 		this.code = code;
 		this.desc = desc;
 	}
@@ -20,12 +20,12 @@ public enum Payment {
 		return desc;
 	}
 
-	public static Payment toEnum(Integer code) {
+	public static ReservationPayment toEnum(Integer code) {
 
 		if (code == null)
 			return null;
 
-		for (Payment x : Payment.values()) {
+		for (ReservationPayment x : ReservationPayment.values()) {
 			if (code.equals(x.getCode()))
 				return x;
 		}

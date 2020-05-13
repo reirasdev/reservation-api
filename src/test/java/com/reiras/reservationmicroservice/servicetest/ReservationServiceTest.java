@@ -35,8 +35,7 @@ public class ReservationServiceTest {
 		assertNotNull(savedEntity);
 
 		ReservationStatus updateStatus;
-		if (savedEntity.getStatus().equals(ReservationStatus.CONFIRMED)
-				|| savedEntity.getStatus().equals(ReservationStatus.PENDING))
+		if (savedEntity.getStatus() == ReservationStatus.CONFIRMED.getCode() || savedEntity.getStatus() == ReservationStatus.PENDING.getCode())
 			updateStatus = ReservationStatus.CANCELLED;
 		else
 			updateStatus = ReservationStatus.PENDING;
@@ -46,7 +45,7 @@ public class ReservationServiceTest {
 		Reservation updatedEntity = reservationService.insert(savedEntity);
 		assertNotNull(updatedEntity);
 		assertEquals(updatedEntity.getId(), savedEntity.getId());
-		assertEquals(updatedEntity.getStatus(), updateStatus);
+		assertEquals(updatedEntity.getStatus(), updateStatus.getCode());
 	}
 
 	@Test

@@ -12,7 +12,7 @@ import com.reiras.reservationmicroservice.domain.City;
 import com.reiras.reservationmicroservice.domain.Customer;
 import com.reiras.reservationmicroservice.domain.Reservation;
 import com.reiras.reservationmicroservice.domain.State;
-import com.reiras.reservationmicroservice.domain.enums.Payment;
+import com.reiras.reservationmicroservice.domain.enums.ReservationPayment;
 import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
 
 public abstract class TestUtils {
@@ -63,7 +63,7 @@ public abstract class TestUtils {
 				RANDOM.nextInt(10),
 				price,
 				price / 2,
-				RANDOM.nextInt(10) % 2 == 0 ? Payment.CREDIT_CARD.getCode() : Payment.BANKING_BILLET.getCode(),
+				RANDOM.nextInt(10) % 2 == 0 ? ReservationPayment.CREDIT_CARD.getCode() : ReservationPayment.BANKING_BILLET.getCode(),
 				createRandomCustomer()
 				);
 		
