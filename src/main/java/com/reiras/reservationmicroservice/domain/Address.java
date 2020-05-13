@@ -119,19 +119,19 @@ public class Address implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Address [id=");
+		builder.append("Address [\n id=");
 		builder.append(id);
-		builder.append(", location=");
+		builder.append("\n location=");
 		builder.append(location);
-		builder.append(", number=");
+		builder.append("\n number=");
 		builder.append(number);
-		builder.append(", addInfo=");
+		builder.append("\n addInfo=");
 		builder.append(addInfo);
-		builder.append(", district=");
+		builder.append("\n district=");
 		builder.append(district);
-		builder.append(", zipCode=");
+		builder.append("\n zipCode=");
 		builder.append(zipCode);
-		builder.append(", city=");
+		builder.append("\n city=");
 		builder.append(city);
 		builder.append("]");
 		return builder.toString();

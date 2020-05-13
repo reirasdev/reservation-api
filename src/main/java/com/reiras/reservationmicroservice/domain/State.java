@@ -80,11 +80,11 @@ public class State implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("State [id=");
+		builder.append("State [\n id=");
 		builder.append(id);
-		builder.append(", name=");
+		builder.append("\n name=");
 		builder.append(name);
-		builder.append(", cities=");
+		builder.append("\n cities=");
 		builder.append(cities);
 		builder.append("]");
 		return builder.toString();

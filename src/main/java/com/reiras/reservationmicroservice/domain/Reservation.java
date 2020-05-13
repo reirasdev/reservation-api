@@ -153,25 +153,25 @@ public class Reservation implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Reservation [id=");
+		builder.append("Reservation [\n id=");
 		builder.append(id);
-		builder.append(", status=");
+		builder.append("\n status=");
 		builder.append(status);
-		builder.append(", eventDate=");
+		builder.append("\n eventDate=");
 		builder.append(eventDate);
-		builder.append(", checkin=");
+		builder.append("\n checkin=");
 		builder.append(checkin);
-		builder.append(", checkout=");
+		builder.append("\n checkout=");
 		builder.append(checkout);
-		builder.append(", guestsQuant=");
+		builder.append("\n guestsQuant=");
 		builder.append(guestsQuant);
-		builder.append(", totalPrice=");
+		builder.append("\n totalPrice=");
 		builder.append(totalPrice);
-		builder.append(", downPayment=");
+		builder.append("\n downPayment=");
 		builder.append(downPayment);
-		builder.append(", payment=");
+		builder.append("\n payment=");
 		builder.append(payment);
-		builder.append(", customer=");
+		builder.append("\n customer=");
 		builder.append(customer);
 		builder.append("]");
 		return builder.toString();

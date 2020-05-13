@@ -91,7 +91,9 @@ public class ReservationmicroserviceApplication implements CommandLineRunner {
 				df.parse("07/09/2020 10:00"), df.parse("11/09/2020 12:00"), 5, 1200.00, 600.00,
 				Payment.BANKING_BILLET.getCode(), customer2);
 		
+		
 		reservationRepository.saveAll(Arrays.asList(reservation1, reservation2, reservation3));
+			
 	}
 	
 	

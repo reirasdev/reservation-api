@@ -140,21 +140,21 @@ public class Customer implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Customer [id=");
+		builder.append("Customer [\n id=");
 		builder.append(id);
-		builder.append(", name=");
+		builder.append("\n name=");
 		builder.append(name);
-		builder.append(", lastName=");
+		builder.append("\n lastName=");
 		builder.append(lastName);
-		builder.append(", fiscalId=");
+		builder.append("\n fiscalId=");
 		builder.append(fiscalId);
-		builder.append(", generalId=");
+		builder.append("\n generalId=");
 		builder.append(generalId);
-		builder.append(", email=");
+		builder.append("\n email=");
 		builder.append(email);
-		builder.append(", phone=");
+		builder.append("\n phone=");
 		builder.append(Arrays.toString(phone));
-		builder.append(", address=");
+		builder.append("\n address=");
 		builder.append(address);
 		builder.append("]");
 		return builder.toString();

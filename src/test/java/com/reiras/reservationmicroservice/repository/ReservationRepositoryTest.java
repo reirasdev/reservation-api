@@ -1,19 +1,18 @@
 package com.reiras.reservationmicroservice.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.reiras.reservationmicroservice.domain.Address;
 import com.reiras.reservationmicroservice.domain.City;
@@ -24,15 +23,14 @@ import com.reiras.reservationmicroservice.domain.enums.Payment;
 import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
 import com.reiras.reservationmicroservice.repositories.ReservationRepository;
 
-@RunWith(SpringRunner.class)
 @DataMongoTest()
-public class ReservationRepositoryIntegrationTest {
+public class ReservationRepositoryTest {
 
 	@Autowired
 	private ReservationRepository reservationRepository;
 
 	@Test
-	public void givenReservationRepository_whenSaveEntity_thenOK() throws Exception {
+	public void save_ValidReservationGiven_ShoulSaveNewReservation() throws Exception {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		Customer customer = new Customer(null, "John", "Doe", df.parse("03/11/1950 00:00"), "18815308920", "382039737",
@@ -49,7 +47,7 @@ public class ReservationRepositoryIntegrationTest {
 	}
 
 	@Test
-	public void givenReservationRepository_whenRetreiveEntityById_thenOK() throws Exception {
+	public void findById_ExistingReservationIdGiven_ShouldReturnReservationMatchingId() throws Exception {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		Customer customer = new Customer(null, "Mary", "Ellen", df.parse("12/06/1990 00:00"), "83090609207",
@@ -70,7 +68,13 @@ public class ReservationRepositoryIntegrationTest {
 	}
 
 	@Test
-	public void givenReservationRepository_whenSaveAndRetreiveAllEntities_thenOK() throws Exception {
+	public void findById_NoExistingReservationIdGiven_ShouldReturnEmpty() throws Exception {
+		Object foundEntity = reservationRepository.findById("-1");
+		assertEquals(Optional.empty(), foundEntity);
+	}
+
+	@Test
+	public void findAll_NoInputParamsGiven_ShouldReturnAllReservations() throws Exception {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		Customer customer = new Customer(null, "Maria", "Bela", df.parse("07/05/1994 00:00"), "31774633442",
