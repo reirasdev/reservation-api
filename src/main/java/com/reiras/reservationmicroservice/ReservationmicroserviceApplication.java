@@ -15,7 +15,7 @@ import com.reiras.reservationmicroservice.domain.City;
 import com.reiras.reservationmicroservice.domain.Customer;
 import com.reiras.reservationmicroservice.domain.Reservation;
 import com.reiras.reservationmicroservice.domain.State;
-import com.reiras.reservationmicroservice.domain.enums.Payment;
+import com.reiras.reservationmicroservice.domain.enums.ReservationPayment;
 import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
 import com.reiras.reservationmicroservice.repository.ReservationRepository;
 
@@ -81,21 +81,19 @@ public class ReservationmicroserviceApplication implements CommandLineRunner {
 	
 		Reservation reservation1 = new Reservation(null, ReservationStatus.CONFIRMED.getCode(), new Date(),
 				df.parse("10/08/2020 10:00"), df.parse("15/08/2020 12:00"), 5, 1000.00, 500.00,
-				Payment.CREDIT_CARD.getCode(), customer1);
+				ReservationPayment.CREDIT_CARD.getCode(), customer1);
 		
 		Reservation reservation2 = new Reservation(null, ReservationStatus.EXPIRED.getCode(), new Date(),
 				df.parse("05/01/2020 10:00"), df.parse("12/01/2020 12:00"), 5, 600.00, 300.00,
-				Payment.CREDIT_CARD.getCode(), customer2);
+				ReservationPayment.CREDIT_CARD.getCode(), customer2);
 		
 		Reservation reservation3 = new Reservation(null, ReservationStatus.PENDING.getCode(), new Date(),
 				df.parse("07/09/2020 10:00"), df.parse("11/09/2020 12:00"), 5, 1200.00, 600.00,
-				Payment.BANKING_BILLET.getCode(), customer2);
+				ReservationPayment.BANKING_BILLET.getCode(), customer2);
 		
 		
 		reservationRepository.saveAll(Arrays.asList(reservation1, reservation2, reservation3));
 			
 	}
-	
-	
 
 }
