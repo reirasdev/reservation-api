@@ -13,7 +13,7 @@ public class Customer implements Serializable {
 
 	@Id
 	private String id;
-	private String name;
+	private String firstName;
 	private String lastName;
 	private Date birthDate;
 	private String fiscalId;
@@ -26,11 +26,11 @@ public class Customer implements Serializable {
 
 	}
 
-	public Customer(String id, String name, String lastName, Date birthDate, String fiscalId, String generalId,
+	public Customer(String id, String firstName, String lastName, Date birthDate, String fiscalId, String generalId,
 			String email, String[] phone, Address address) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
 		this.lastName = lastName;
 		this.setBirthDate(birthDate);
 		this.fiscalId = fiscalId;
@@ -48,12 +48,12 @@ public class Customer implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String name) {
+		this.firstName = name;
 	}
 
 	public String getLastName() {
@@ -143,7 +143,7 @@ public class Customer implements Serializable {
 		builder.append("Customer [\n id=");
 		builder.append(id);
 		builder.append("\n name=");
-		builder.append(name);
+		builder.append(firstName);
 		builder.append("\n lastName=");
 		builder.append(lastName);
 		builder.append("\n fiscalId=");
