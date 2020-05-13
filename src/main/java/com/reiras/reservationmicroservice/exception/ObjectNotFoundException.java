@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.exceptions;
+package com.reiras.reservationmicroservice.exception;
 
 public class ObjectNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

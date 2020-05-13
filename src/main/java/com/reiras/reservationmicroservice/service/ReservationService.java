@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.services;
+package com.reiras.reservationmicroservice.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reiras.reservationmicroservice.domain.Reservation;
-import com.reiras.reservationmicroservice.exceptions.ObjectNotFoundException;
-import com.reiras.reservationmicroservice.repositories.ReservationRepository;
+import com.reiras.reservationmicroservice.exception.ObjectNotFoundException;
+import com.reiras.reservationmicroservice.repository.ReservationRepository;
 
 @Service
 public class ReservationService {

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.reiras.reservationmicroservice.repositories.ReservationRepository;
-import com.reiras.reservationmicroservice.services.ReservationService;
+import com.reiras.reservationmicroservice.repository.ReservationRepository;
+import com.reiras.reservationmicroservice.service.ReservationService;
 
 @SpringBootTest
 class ReservationmicroserviceApplicationTests {

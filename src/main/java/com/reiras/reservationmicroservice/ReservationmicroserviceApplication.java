@@ -17,7 +17,7 @@ import com.reiras.reservationmicroservice.domain.Reservation;
 import com.reiras.reservationmicroservice.domain.State;
 import com.reiras.reservationmicroservice.domain.enums.Payment;
 import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
-import com.reiras.reservationmicroservice.repositories.ReservationRepository;
+import com.reiras.reservationmicroservice.repository.ReservationRepository;
 
 @SpringBootApplication
 public class ReservationmicroserviceApplication implements CommandLineRunner {

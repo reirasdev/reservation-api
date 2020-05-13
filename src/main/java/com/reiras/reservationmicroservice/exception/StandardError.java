@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.exceptions;
+package com.reiras.reservationmicroservice.exception;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.util;
+package com.reiras.reservationmicroservice.utiltest;
 
 import java.util.Calendar;
 import java.util.Date;

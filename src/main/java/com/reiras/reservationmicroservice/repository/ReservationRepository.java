@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.repositories;
+package com.reiras.reservationmicroservice.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
