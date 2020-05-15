@@ -22,7 +22,7 @@ import com.reiras.reservationmicroservice.dto.ReservationDto;
 import com.reiras.reservationmicroservice.dto.ReservationInsertDto;
 import com.reiras.reservationmicroservice.repository.CustomerRepository;
 import com.reiras.reservationmicroservice.repository.ReservationRepository;
-import com.reiras.reservationmicroservice.utiltest.TestUtils;
+import com.reiras.reservationmicroservice.util.TestUtils;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;

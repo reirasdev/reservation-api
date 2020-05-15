@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.repositorytest;
+package com.reiras.reservationmicroservice.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 import com.reiras.reservationmicroservice.domain.Reservation;
-import com.reiras.reservationmicroservice.repository.ReservationRepository;
-import com.reiras.reservationmicroservice.utiltest.TestUtils;
+import com.reiras.reservationmicroservice.util.TestUtils;
 
 @DataMongoTest()
 public class ReservationRepositoryTest {

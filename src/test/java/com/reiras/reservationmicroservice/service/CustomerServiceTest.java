@@ -1,4 +1,4 @@
-package com.reiras.reservationmicroservice.servicetest;
+package com.reiras.reservationmicroservice.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.reiras.reservationmicroservice.domain.Customer;
 import com.reiras.reservationmicroservice.exception.ObjectNotFoundException;
 import com.reiras.reservationmicroservice.repository.CustomerRepository;
-import com.reiras.reservationmicroservice.service.CustomerService;
-import com.reiras.reservationmicroservice.utiltest.TestUtils;
+import com.reiras.reservationmicroservice.util.TestUtils;
 
 @SpringBootTest
 public class CustomerServiceTest {
