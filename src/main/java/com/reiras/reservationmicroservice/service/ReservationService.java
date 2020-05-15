@@ -26,6 +26,10 @@ public class ReservationService {
 	private CustomerService customerService;
 
 	public Reservation findById(String id) {
+		if (id == null || id.isBlank())
+			throw new ObjectNotFoundException(
+					"Object not found! Id is invalid: " + id + ", Type: " + Reservation.class.getName());
+
 		Optional<Reservation> obj = reservationRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! Id: " + id + ", Type: " + Reservation.class.getName()));

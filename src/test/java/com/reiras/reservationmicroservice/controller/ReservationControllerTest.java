@@ -73,15 +73,15 @@ public class ReservationControllerTest {
 	}
 	
 	@Test
-	public void insert_NotValidReservationGiven_ShoulReturnError() throws Exception {		
+	public void insert_NoExistingReservationCustomerGiven_ShoulReturnError404() throws Exception {		
 		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(), ReservationInsertDto.class);
-		newReservation.setCustomerId(null);
+		newReservation.setCustomerId("-1");
 		
 		Response response = RestAssured.given(this.requestSetup())
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.body(newReservation)
 				.post();
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCode());
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
 	}
 	
 	@Test
