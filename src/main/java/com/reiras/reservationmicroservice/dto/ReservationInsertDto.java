@@ -2,10 +2,16 @@ package com.reiras.reservationmicroservice.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Future;
+
 public class ReservationInsertDto {
 
+	@Future(message = "{reservation.future.date.error}")
 	private Date checkin;
+
+	@Future(message = "{reservation.future.date.error}")
 	private Date checkout;
+	
 	private int guestsQuant;
 	private double totalPrice;
 	private double downPayment;

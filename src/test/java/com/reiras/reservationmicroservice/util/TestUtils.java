@@ -72,6 +72,7 @@ public abstract class TestUtils {
 	
 	private static Date randomDate(int rangeBegin, int rangeEnd) {
 		Calendar startMillis = Calendar.getInstance();
+		startMillis.add(Calendar.DAY_OF_MONTH, 1);
 		startMillis.add(Calendar.YEAR, rangeBegin);
 
 		Calendar endMillis = Calendar.getInstance();
@@ -85,7 +86,7 @@ public abstract class TestUtils {
 	
 	private static Date randomCheckin() {
 		Calendar checkin = Calendar.getInstance();
-		checkin.setTime(randomDate(-1, 1));
+		checkin.setTime(randomDate(0, 1));
 		checkin.set(Calendar.HOUR_OF_DAY, 14);
 		checkin.set(Calendar.MINUTE, 0);
 		checkin.set(Calendar.SECOND, 0);
