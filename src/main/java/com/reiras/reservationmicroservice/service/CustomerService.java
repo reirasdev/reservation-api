@@ -20,4 +20,9 @@ public class CustomerService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not found! Id: " + id + ", Type: " + Customer.class.getName()));
 	}
+
+	public Customer update(Customer obj) {
+		this.findById(obj.getId());
+		return customerRepository.save(obj);
+	}
 }

@@ -30,6 +30,6 @@ public enum ReservationStatus {
 				return x;
 		}
 
-		throw new IllegalArgumentException("Invalid PaymentStatus: " + code);
+		throw new IllegalArgumentException("Invalid ReservationStatus: " + code);
 	}
 }

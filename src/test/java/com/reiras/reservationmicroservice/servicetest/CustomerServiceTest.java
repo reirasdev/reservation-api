@@ -24,7 +24,7 @@ public class CustomerServiceTest {
 	private CustomerRepository customerRepository;
 
 	@Test
-	public void findById_ExistingReservationIdGiven_ShouldReturnReservationMatchingId() throws Exception {
+	public void findById_ExistingCustomerIdGiven_ShouldReturnCustomerMatchingId() throws Exception {
 		Customer savedEntity = customerRepository.save(TestUtils.createRandomCustomer());
 		assertNotNull(savedEntity);
 
@@ -34,9 +34,33 @@ public class CustomerServiceTest {
 	}
 
 	@Test
-	public void findById_NoExistingReservationIdGiven_ShouldThrowExcetion() throws Exception {
+	public void findById_NoExistingCustomerIdGiven_ShouldThrowExcetion() throws Exception {
 		assertThrows(ObjectNotFoundException.class, () -> {
 			customerService.findById("-1");
+		});
+	}
+
+	@Test
+	public void update_ExistingCustomerGiven_ShouldUpdateCustomer() throws Exception {
+		Customer savedEntity = customerRepository.save(TestUtils.createRandomCustomer());
+		assertNotNull(savedEntity);
+
+		String newFirstName = "NEW_NAME";
+		savedEntity.setFirstName(newFirstName);
+
+		Customer updatedEntity = customerService.update(savedEntity);
+		assertNotNull(updatedEntity);
+		assertEquals(updatedEntity.getId(), savedEntity.getId());
+		assertEquals(updatedEntity.getFirstName(), newFirstName);
+	}
+
+	@Test
+	public void update_NoExistingCustomerGiven_ShouldThrowExcetion() throws Exception {
+		Customer noExistingEntity = TestUtils.createRandomCustomer();
+		noExistingEntity.setId("-1");
+
+		assertThrows(ObjectNotFoundException.class, () -> {
+			customerService.update(noExistingEntity);
 		});
 	}
 }

@@ -1,10 +1,13 @@
 package com.reiras.reservationmicroservice.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -21,6 +24,9 @@ public class Customer implements Serializable {
 	private String email;
 	private String[] phone;
 	private Address address;
+	
+	@DBRef(lazy = true)
+	private List<Reservation> reservations = new ArrayList<Reservation>();
 
 	public Customer() {
 
@@ -110,6 +116,14 @@ public class Customer implements Serializable {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 
 	@Override
