@@ -60,7 +60,7 @@ public abstract class TestUtils {
 				eventDate.getTime(),
 				checkin,
 				checkout,
-				RANDOM.nextInt(10),
+				RANDOM.nextInt(10) + 1,
 				price,
 				price / 2,
 				RANDOM.nextInt(10) % 2 == 0 ? ReservationPayment.CREDIT_CARD.getCode() : ReservationPayment.BANKING_BILLET.getCode(),
@@ -87,21 +87,21 @@ public abstract class TestUtils {
 	private static Date randomCheckin() {
 		Calendar checkin = Calendar.getInstance();
 		checkin.setTime(randomDate(0, 1));
-		checkin.set(Calendar.HOUR_OF_DAY, 14);
+		checkin.set(Calendar.HOUR_OF_DAY, 0);
 		checkin.set(Calendar.MINUTE, 0);
 		checkin.set(Calendar.SECOND, 0);
-		
+
 		return checkin.getTime();
 	}
-	
+
 	private static Date randomCheckout(Date checkin) {
 		Calendar checkout = Calendar.getInstance();
 		checkout.setTime(checkin);
-		checkout.add(Calendar.DAY_OF_MONTH, RANDOM.nextInt(21));
-		checkout.set(Calendar.HOUR_OF_DAY, 11);
+		checkout.add(Calendar.DAY_OF_MONTH, RANDOM.nextInt(21) + 1);
+		checkout.set(Calendar.HOUR_OF_DAY, 0);
 		checkout.set(Calendar.MINUTE, 0);
 		checkout.set(Calendar.SECOND, 0);
-		
+
 		return checkout.getTime();
 	}
 	

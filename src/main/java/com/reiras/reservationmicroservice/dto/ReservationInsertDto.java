@@ -3,7 +3,13 @@ package com.reiras.reservationmicroservice.dto;
 import java.util.Date;
 
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
+import com.reiras.reservationmicroservice.validator.ReservationInsert;
+
+@ReservationInsert
 public class ReservationInsertDto {
 
 	@Future(message = "{reservation.future.date.error}")
@@ -11,11 +17,19 @@ public class ReservationInsertDto {
 
 	@Future(message = "{reservation.future.date.error}")
 	private Date checkout;
-	
+
+	@Min(value = 1, message = "{reservation.guestsQuant.error}" )
 	private int guestsQuant;
+	
+	@Min(value = 1, message = "{reservation.totalPrice.date.error}" )
 	private double totalPrice;
 	private double downPayment;
+	
+	@Min(value = 1, message = "{reservation.payment.error}" )
+	@Max(value = 2, message = "{reservation.payment.error}" )
 	private int payment;
+
+	@NotEmpty(message = "{reservation.customerId.date.error}")
 	private String customerId;
 
 	public ReservationInsertDto() {

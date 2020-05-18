@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ public class ReservationControllerTest {
 
 	@Autowired
 	private ReservationRepository reservationRepository;
-	
+
 	@Autowired
 	private CustomerRepository customerRepository;
 
@@ -47,43 +48,131 @@ public class ReservationControllerTest {
 		requestSpecBuilder.setBasePath("/reservations");
 		return requestSpecBuilder.build();
 	}
-	
+
 	@Test
 	public void insert_ValidReservationGiven_ShoulInsertNewReservation() throws Exception {
 		Customer savedCustomer = customerRepository.save(TestUtils.createRandomCustomer());
 		assertNotNull(savedCustomer);
-		
-		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(), ReservationInsertDto.class);
+
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
 		newReservation.setCustomerId(savedCustomer.getId());
-		
-		Response response = RestAssured.given(this.requestSetup())
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.body(newReservation)
-				.post();
-		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());		
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 		String newReservationUri = response.getHeader("Location");
-		
+
 		RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
 		requestSpecBuilder.setBaseUri(newReservationUri);
-		
+
 		Response newReservationResponse = RestAssured.given(requestSpecBuilder.build()).get();
 		assertEquals(HttpStatus.OK.value(), newReservationResponse.getStatusCode());
 		assertEquals(newReservationResponse.as(ReservationDto.class).getTotalPrice(), newReservation.getTotalPrice());
-		assertEquals(newReservationResponse.as(ReservationDto.class).getCustomerFirstName(), savedCustomer.getFirstName());
+		assertEquals(newReservationResponse.as(ReservationDto.class).getCustomerFirstName(),
+				savedCustomer.getFirstName());
 	}
-	
+
 	@Test
-	public void insert_NoExistingReservationCustomerGiven_ShoulReturnError404() throws Exception {		
-		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(), ReservationInsertDto.class);
+	public void insert_ReservationNoFutureCheckinGiven_ShoulReturnError422() throws Exception {
+		Customer savedCustomer = customerRepository.save(TestUtils.createRandomCustomer());
+		assertNotNull(savedCustomer);
+
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
+		newReservation.setCustomerId(savedCustomer.getId());
+		newReservation.setCheckin(yesterday.getTime());
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void insert_ReservationInvalidMinimumStayGiven_ShoulReturnError422() throws Exception {
+		Customer savedCustomer = customerRepository.save(TestUtils.createRandomCustomer());
+		assertNotNull(savedCustomer);
+
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
+		newReservation.setCustomerId(savedCustomer.getId());
+		newReservation.setCheckout(newReservation.getCheckin());
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void insert_ReservationInvalidGuestsQuantGiven_ShoulReturnError422() throws Exception {
+		Customer savedCustomer = customerRepository.save(TestUtils.createRandomCustomer());
+		assertNotNull(savedCustomer);
+
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
+		newReservation.setCustomerId(savedCustomer.getId());
+		newReservation.setGuestsQuant(0);
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void insert_ReservationInvalidTotalPriceGiven_ShoulReturnError422() throws Exception {
+		Customer savedCustomer = customerRepository.save(TestUtils.createRandomCustomer());
+		assertNotNull(savedCustomer);
+
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
+		newReservation.setCustomerId(savedCustomer.getId());
+		newReservation.setTotalPrice(0);
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void insert_ReservationInvalidPaymentGiven_ShoulReturnError422() throws Exception {
+		Customer savedCustomer = customerRepository.save(TestUtils.createRandomCustomer());
+		assertNotNull(savedCustomer);
+
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
+		newReservation.setCustomerId(savedCustomer.getId());
+		newReservation.setPayment(0);
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void insert_ReservationEmptyCustomerIdGiven_ShoulReturnError422() throws Exception {
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
+		newReservation.setCustomerId("");
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void insert_NoExistingReservationCustomerGiven_ShoulReturnError404() throws Exception {
+		ReservationInsertDto newReservation = new ModelMapper().map(TestUtils.createRandomReservation(),
+				ReservationInsertDto.class);
 		newReservation.setCustomerId("-1");
-		
-		Response response = RestAssured.given(this.requestSetup())
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.body(newReservation)
-				.post();
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(newReservation).post();
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
 	}
-	
+
 	@Test
 	public void update_ValidReservationGiven_ShoulUpdateReservation() throws Exception {
 		Reservation savedEntity = TestUtils.createRandomReservation();
@@ -91,26 +180,29 @@ public class ReservationControllerTest {
 		savedEntity = reservationRepository.save(savedEntity);
 		assertNotNull(savedEntity);
 		assertEquals(savedEntity.getStatus(), ReservationStatus.PENDING.getCode());
-		
-		Response response = RestAssured.given(this.requestSetup()).param("status", ReservationStatus.CONFIRMED.getCode()).put("/" + savedEntity.getId());		
-		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());		
+
+		Response response = RestAssured.given(this.requestSetup())
+				.param("status", ReservationStatus.CONFIRMED.getCode()).put("/" + savedEntity.getId());
+		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 		String updateReservationUri = response.getHeader("Location");
-		
+
 		RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
 		requestSpecBuilder.setBaseUri(updateReservationUri);
-		
+
 		Response updateReservationResponse = RestAssured.given(requestSpecBuilder.build()).get();
 		assertEquals(HttpStatus.OK.value(), updateReservationResponse.getStatusCode());
 		assertEquals(updateReservationResponse.as(ReservationDto.class).getId(), savedEntity.getId());
-		assertEquals(updateReservationResponse.as(ReservationDto.class).getStatus(), ReservationStatus.CONFIRMED.getDesc());
+		assertEquals(updateReservationResponse.as(ReservationDto.class).getStatus(),
+				ReservationStatus.CONFIRMED.getDesc());
 	}
-	
+
 	@Test
-	public void update_NoExistingReservationGiven_ShoulReturnError404() throws Exception {		
-		Response response = RestAssured.given(this.requestSetup()).param("status", ReservationStatus.CONFIRMED.getCode()).put("/-1");		
+	public void update_NoExistingReservationGiven_ShoulReturnError404() throws Exception {
+		Response response = RestAssured.given(this.requestSetup())
+				.param("status", ReservationStatus.CONFIRMED.getCode()).put("/-1");
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
 	}
-	
+
 	@Test
 	public void delete_ValidReservationGiven_ShoulDeleteReservation() throws Exception {
 		Reservation savedEntity = TestUtils.createRandomReservation();
@@ -118,19 +210,19 @@ public class ReservationControllerTest {
 		savedEntity = reservationRepository.save(savedEntity);
 		assertNotNull(savedEntity);
 		assertEquals(savedEntity.getStatus(), ReservationStatus.CONFIRMED.getCode());
-		
-		Response response = RestAssured.given(this.requestSetup()).delete("/" + savedEntity.getId());		
+
+		Response response = RestAssured.given(this.requestSetup()).delete("/" + savedEntity.getId());
 		assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatusCode());
-		
+
 		Reservation deleteEntity = reservationRepository.findById(savedEntity.getId()).get();
 		assertNotNull(deleteEntity);
 		assertEquals(deleteEntity.getId(), savedEntity.getId());
 		assertEquals(deleteEntity.getStatus(), ReservationStatus.CANCELLED.getCode());
 	}
-	
+
 	@Test
-	public void delete_NoExistingeservationGiven_ShoulReturnError404() throws Exception {		
-		Response response = RestAssured.given(this.requestSetup()).delete("/-1");		
+	public void delete_NoExistingeservationGiven_ShoulReturnError404() throws Exception {
+		Response response = RestAssured.given(this.requestSetup()).delete("/-1");
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
 	}
 
@@ -143,7 +235,7 @@ public class ReservationControllerTest {
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertEquals(response.as(ReservationDto.class).getId(), savedEntity.getId());
 	}
-	
+
 	@Test
 	public void findById_NoExistingReservationIdGiven_ShoulReturnError404() {
 		Response response = RestAssured.given(this.requestSetup()).get("/-1");
