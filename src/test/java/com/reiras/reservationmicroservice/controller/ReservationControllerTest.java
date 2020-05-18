@@ -21,6 +21,7 @@ import com.reiras.reservationmicroservice.domain.Reservation;
 import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
 import com.reiras.reservationmicroservice.dto.ReservationDto;
 import com.reiras.reservationmicroservice.dto.ReservationInsertDto;
+import com.reiras.reservationmicroservice.dto.ReservationUpdateDto;
 import com.reiras.reservationmicroservice.repository.CustomerRepository;
 import com.reiras.reservationmicroservice.repository.ReservationRepository;
 import com.reiras.reservationmicroservice.util.TestUtils;
@@ -181,8 +182,11 @@ public class ReservationControllerTest {
 		assertNotNull(savedEntity);
 		assertEquals(savedEntity.getStatus(), ReservationStatus.PENDING.getCode());
 
-		Response response = RestAssured.given(this.requestSetup())
-				.param("status", ReservationStatus.CONFIRMED.getCode()).put("/" + savedEntity.getId());
+		ReservationUpdateDto updateEntity = new ReservationUpdateDto(savedEntity.getId(),
+				ReservationStatus.CONFIRMED.getCode());
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(updateEntity).put("/" + savedEntity.getId());
 		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 		String updateReservationUri = response.getHeader("Location");
 
@@ -198,9 +202,29 @@ public class ReservationControllerTest {
 
 	@Test
 	public void update_NoExistingReservationGiven_ShoulReturnError404() throws Exception {
-		Response response = RestAssured.given(this.requestSetup())
-				.param("status", ReservationStatus.CONFIRMED.getCode()).put("/-1");
+		ReservationUpdateDto updateEntity = new ReservationUpdateDto("-1", ReservationStatus.CONFIRMED.getCode());
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(updateEntity).put("/-1");
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void update_ReservationNotMatchIdParamsGiven_ShoulReturnError422() throws Exception {
+		ReservationUpdateDto updateEntity = new ReservationUpdateDto("ID_1", ReservationStatus.CONFIRMED.getCode());
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(updateEntity).put("/ID_2");
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
+	}
+
+	@Test
+	public void update_ReservationInvalidStatusGiven_ShoulReturnError422() throws Exception {
+		ReservationUpdateDto updateEntity = new ReservationUpdateDto("ID_1", 9999);
+
+		Response response = RestAssured.given(this.requestSetup()).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.body(updateEntity).put("/ID_1");
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode());
 	}
 
 	@Test

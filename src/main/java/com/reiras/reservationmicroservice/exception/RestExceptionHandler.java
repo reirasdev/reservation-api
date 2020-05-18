@@ -20,6 +20,14 @@ public class RestExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 
+	@ExceptionHandler(InvalidParameterException.class)
+	public ResponseEntity<StandardError> invalidParameter(InvalidParameterException e, HttpServletRequest request) {
+		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.UNPROCESSABLE_ENTITY.value(),
+				"Invalid parameter", e.getMessage(), request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+	}
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> methodArgumentNotValid(MethodArgumentNotValidException e,
 			HttpServletRequest request) {

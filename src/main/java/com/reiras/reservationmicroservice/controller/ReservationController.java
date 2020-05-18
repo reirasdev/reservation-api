@@ -24,6 +24,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.reiras.reservationmicroservice.domain.Reservation;
 import com.reiras.reservationmicroservice.dto.ReservationDto;
 import com.reiras.reservationmicroservice.dto.ReservationInsertDto;
+import com.reiras.reservationmicroservice.dto.ReservationUpdateDto;
+import com.reiras.reservationmicroservice.exception.InvalidParameterException;
 import com.reiras.reservationmicroservice.service.ReservationService;
 
 @RestController
@@ -71,8 +73,11 @@ public class ReservationController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> update(@PathVariable String id, @RequestParam int status) {
-		reservationService.update(id, status);
+	public ResponseEntity<Void> update(@PathVariable String id, @Valid @RequestBody ReservationUpdateDto dto) {
+		if (!id.equals(dto.getId()))
+			throw new InvalidParameterException("Path parameter [ID] does not match Request Body parameter [ID]");
+
+		reservationService.update(id, dto.getStatus());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replaceQuery(null).build().toUri();
 		return ResponseEntity.created(uri).build();
 	}
