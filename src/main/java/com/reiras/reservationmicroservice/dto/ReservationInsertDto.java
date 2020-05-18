@@ -21,7 +21,7 @@ public class ReservationInsertDto {
 	@Min(value = 1, message = "{reservation.guestsQuant.error}" )
 	private int guestsQuant;
 	
-	@Min(value = 1, message = "{reservation.totalPrice.date.error}" )
+	@Min(value = 1, message = "{reservation.totalPrice.error}" )
 	private double totalPrice;
 	private double downPayment;
 	
@@ -29,7 +29,7 @@ public class ReservationInsertDto {
 	@Max(value = 2, message = "{reservation.payment.error}" )
 	private int payment;
 
-	@NotEmpty(message = "{reservation.customerId.date.error}")
+	@NotEmpty(message = "{reservation.customerId.error}")
 	private String customerId;
 
 	public ReservationInsertDto() {
