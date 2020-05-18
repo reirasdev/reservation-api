@@ -4,11 +4,15 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ReservationUpdateDto {
 
+	@ApiModelProperty(notes = "The database generated Reservation ID")
 	@NotEmpty(message = "{reservation.id.error}")
 	private String id;
 
+	@ApiModelProperty(notes = "Reservation Status: 0 Pending | 1 Confirmed | 2 Cancelled | 3 Expired")
 	@Min(value = 0, message = "{reservation.payment.error}")
 	@Max(value = 3, message = "{reservation.payment.error}")
 	private int status;

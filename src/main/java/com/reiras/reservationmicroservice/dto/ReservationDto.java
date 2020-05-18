@@ -7,27 +7,50 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.reiras.reservationmicroservice.domain.enums.ReservationPayment;
 import com.reiras.reservationmicroservice.domain.enums.ReservationStatus;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ReservationDto {
 
+	@ApiModelProperty(notes = "The database generated Reservation ID")
 	private String id;
+	
+	@ApiModelProperty(notes = "Reservation Status: 0 Pending | 1 Confirmed | 2 Cancelled | 3 Expired")
 	private String status;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@ApiModelProperty(notes = "Date and time reservation was created")
 	private Date eventDate;
 
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@ApiModelProperty(notes = "Date for checkin")
 	private Date checkin;
 
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@ApiModelProperty(notes = "Date for checkout")
 	private Date checkout;
 
+	@ApiModelProperty(notes = "Number of guests the reservation will host")
 	private int guestsQuant;
+	
+	@ApiModelProperty(notes = "Total price of the reservation, including taxes")
 	private double totalPrice;
+	
+	@ApiModelProperty(notes = "Payment in advance necessary to confirm the reservation")
 	private double downPayment;
+	
+	@ApiModelProperty(notes = "Payment type: 1 Credit card | 2 Banking billet")
 	private String payment;
+	
+	@ApiModelProperty(notes = "Customer's first name")
 	private String customerFirstName;
+	
+	@ApiModelProperty(notes = "Customer's last name")
 	private String customerLastName;
+	
+	@ApiModelProperty(notes = "Customer's e-mail")
 	private String customerEmail;
+	
+	@ApiModelProperty(notes = "Customer's phone numbers")
 	private String[] customerPhone;
 
 	public ReservationDto() {

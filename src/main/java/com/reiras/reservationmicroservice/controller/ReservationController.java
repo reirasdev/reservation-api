@@ -28,6 +28,8 @@ import com.reiras.reservationmicroservice.dto.ReservationUpdateDto;
 import com.reiras.reservationmicroservice.exception.InvalidParameterException;
 import com.reiras.reservationmicroservice.service.ReservationService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/reservations")
 public class ReservationController {
@@ -38,6 +40,7 @@ public class ReservationController {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@ApiOperation(value = "Search for a reservation using its ID as search clause")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ReservationDto> findById(@PathVariable String id) {
 		Reservation obj = reservationService.findById(id);
@@ -45,6 +48,7 @@ public class ReservationController {
 		return ResponseEntity.ok().body(objDto);
 	}
 
+	@ApiOperation(value = "List all reservations")
 	@GetMapping
 	public ResponseEntity<List<ReservationDto>> findAll() {
 		List<Reservation> objList = reservationService.findAll();
@@ -52,6 +56,7 @@ public class ReservationController {
 		return ResponseEntity.ok().body(dtoList);
 	}
 
+	@ApiOperation(value = "List all reservations with pagination options")
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<ReservationDto>> findByPage(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -64,6 +69,7 @@ public class ReservationController {
 		return ResponseEntity.ok().body(dtoList);
 	}
 
+	@ApiOperation(value = "Create a new reservation")
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody ReservationInsertDto dto) {
 		Reservation obj = this.reservationInsertDtoToReservation(dto);
@@ -72,6 +78,7 @@ public class ReservationController {
 		return ResponseEntity.created(uri).build();
 	}
 
+	@ApiOperation(value = "Update an existing reservation")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@PathVariable String id, @Valid @RequestBody ReservationUpdateDto dto) {
 		if (!id.equals(dto.getId()))
@@ -82,6 +89,7 @@ public class ReservationController {
 		return ResponseEntity.created(uri).build();
 	}
 
+	@ApiOperation(value = "Delete an existing reservation")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		reservationService.delete(id);
