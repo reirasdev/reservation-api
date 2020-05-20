@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+
+  db-mongo-reservationmicroservice:
+    image: mongo
+    restart: always
+    environment:
+      TZ: America/Sao_Paulo
+    ports:
+      - 27017:27017
+    networks:
+      - net-reservationmicroservice
+
+networks:
+    net-reservationmicroservice:
+      name: net-reservationmicroservice
+      driver: bridge
