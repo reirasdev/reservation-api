@@ -1,10 +1,10 @@
 # This workflow performs the folling tasks:
-# Run tests and package app with Maven
-# Build docker image
-# Publish docker image on DockerHub
-# Deploy app using Docker Compose on AWS EC2 instance
+# Run tests, compile and package app with Maven
+# Build Docker image
+# Publish Docker image on DockerHub
+# Up container, based on DockerHub publication, using Docker Compose on AWS EC2 instance
 
-name: DockerHub Publish
+name: CD | Maven | Docker | AWS EC2
 
 on:
   push:
